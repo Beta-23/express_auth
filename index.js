@@ -5,14 +5,17 @@ var express = require('express'),
     path = require('path'),
     ejs = require('ejs'),
     keygen = require('keygenerator'),
+    methodOverride = require('method-override'),
     app = express();
 
-// using ejs
+// use ejs
 app.set('view engine', 'ejs');
-
+// use method over-ride
+app.use(methodOverride('_method'));
+// use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 
-// create our session
+// create the session
 app.use(
   session({
     // use keygen to generate a secret key for us
@@ -53,7 +56,7 @@ app.get("/login", function (req, res) {
 });
 
 // signup route
-app.get("/signup", function (req, res) {
+app.get(["/", "/signup"], function (req, res) {
   res.render("signup");
 });
 
@@ -93,6 +96,12 @@ app.get("/profile", function userShow(req, res) {
       res.render("profile", {user: currentUser});
     }
   })
+});
+
+// logout the user
+app.delete(["/sessions", "/logout"], function(req, res) {
+  req.logout();
+  res.redirect("/login");
 });
 
 var listener = app.listen(3000, function () {
