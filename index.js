@@ -3,11 +3,12 @@ var express = require('express'),
     db = require('./models'),
     session = require('express-session'),
     path = require('path'),
+    ejs = require('ejs'),
     keygen = require('keygenerator'),
     app = express();
 
-// views path
-var views = path.join(process.cwd(), "views");
+// using ejs
+app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -48,12 +49,12 @@ app.use(function (req, res, next) {
 // login route
 app.get("/login", function (req, res) {
   // send the login page
-  res.sendFile(path.join(views, "login.html"));
+  res.render("login");
 });
 
 // signup route
 app.get("/signup", function (req, res) {
-  res.sendFile(path.join(views, "signup.html"));
+  res.render("signup");
 });
 
 // where the user submits the sign-up form
@@ -85,11 +86,11 @@ app.post(["/sessions", "/login"], function login(req, res) {
 
 // show the current user
 app.get("/profile", function userShow(req, res) {
-  req.currentUser(function (err, user) {
-    if (user === null) {
+  req.currentUser(function (err, currentUser) {
+    if (currentUser === null) {
       res.redirect("/signup")
     } else {
-      res.send("Hello " + user.email);
+      res.render("profile", {user: currentUser});
     }
   })
 });
