@@ -3,6 +3,7 @@ var express = require('express'),
     db = require('./models'),
     session = require('express-session'),
     path = require('path'),
+    keygen = require('keygenerator'),
     app = express();
 
 // views path
@@ -13,7 +14,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 // create our session
 app.use(
   session({
-    secret: 'super-secret-private-keyyy',
+    // use keygen to generate a secret key for us
+    secret: keygen._({specials: true}),
     resave: false,
     saveUninitialized: true
   })
@@ -51,7 +53,7 @@ app.get("/login", function (req, res) {
 
 // signup route
 app.get("/signup", function (req, res) {
-  res.send("Coming soon");
+  res.sendFile(path.join(views, "signup.html"));
 });
 
 // where the user submits the sign-up form
@@ -62,8 +64,9 @@ app.post(["/users", "/signup"], function signup(req, res) {
   var email = user.email;
   var password = user.password;
   // create the new user
-  db.User.createSecure(email, password, function() {
-    res.send(email + " is registered!\n");
+  db.User.createSecure(email, password, function(err, user) {
+    req.login(user);
+    res.redirect("/profile"); 
   });
 });
 
@@ -83,7 +86,11 @@ app.post(["/sessions", "/login"], function login(req, res) {
 // show the current user
 app.get("/profile", function userShow(req, res) {
   req.currentUser(function (err, user) {
-    res.send("Hello " + user.email);
+    if (user === null) {
+      res.redirect("/signup")
+    } else {
+      res.send("Hello " + user.email);
+    }
   })
 });
 
