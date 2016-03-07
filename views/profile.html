@@ -8,6 +8,9 @@
 </head>
 <body>
         <h1>Profile</h1>
-        <p>This is the profile page</p>
+        <p>Welcome, {{ user.email }}!</p>
+        <form method="post" action="/logout?_method=DELETE">
+            <button type="submit">Logout</button>
+        </form>
 </body>    
 </html>
