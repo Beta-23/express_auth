@@ -1,8 +1,8 @@
 var express = require('express'),
-	bodyParser = require('bodyParser'),
+	bodyParser = require('body-parser'),
 	app = express();
 
-app.use(bodyParser.unlencode({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/signup", function (req, res){
 	res.send("Coming soon");
