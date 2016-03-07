@@ -28,6 +28,11 @@ app.use(function(req, res, next){
                 callback(null, user);
             });
     };
+    req.logout = function(){
+        req.session.userId = null;
+        req.user = null;
+    };
+    next();
 });
 
 app.get('/login', function(req, res){
