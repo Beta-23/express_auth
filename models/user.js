@@ -9,3 +9,8 @@ var UserSchema = new Schema({
 	passwordDigest: {type: String, require: true},
 	createdAt: {type: Date, default: Date.now()}
 });
+
+//define user model
+var User = mongoose.model('User', UserSchema);
+//export user model
+module.exports = User;
