@@ -40,7 +40,7 @@ app.get('/login', function(req, res){
 });
 
 app.get('/signup', function(req, res){
-    res.send('Coming soon');
+    res.sendFile(path.join(views, 'signup.html'));
 });
 
 app.post(['/users', '/signup'], function signup(req, res){
@@ -65,10 +65,14 @@ app.post(['/sessions', '/login'], function login(req, res){
 
 app.get('/profile', function userShow(req, res){
     req.currentUser(function(err, user){
-        res.send('Hello ' + user.email);
+        if (user === null) {
+            res.redirect('/signup');
+        } else {
+            res.send('Hello ' + user.email);
+        }
     });
 });
 
 app.listen(3000, function(){
-    console.log('listening on port 3000');
+    console.log('Listening on port 3000');
 });
