@@ -1,0 +1,19 @@
+{
+  "name": "express_auth",
+  "version": "1.0.0",
+  "description": "In class exercise, instructions [here](https://github.com/sf-wdi-26/modules/tree/master/w08/d01/m4-express-auth)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beta-23/express_auth.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Beta-23/express_auth/issues"
+  },
+  "homepage": "https://github.com/Beta-23/express_auth#readme"
+}
